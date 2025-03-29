@@ -1,0 +1,17 @@
+.list_contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.item_contact {
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 250px;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
