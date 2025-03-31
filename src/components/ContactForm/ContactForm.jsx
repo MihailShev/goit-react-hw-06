@@ -3,31 +3,40 @@ import { useId } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { nanoid } from "nanoid";
+import { useDispatch } from "react-redux";
+import { addContact } from "../../redux/contactsSlice";
 
-function ContactForm({ addContact }) {
-  const initValue = {
-    name: "",
-    number: "",
-  };
+const alertMessage = Yup.object().shape({
+  name: Yup.string()
+    .min(3, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  number: Yup.string()
+    .matches(/^\d{6,7}$/, "Number must be 6-7 digits long")
+    .required("Required"),
+});
+
+const initValue = {
+  name: "",
+  number: "",
+};
+
+function ContactForm() {
+  const dispatch = useDispatch();
 
   const handleSubmit = (values, form) => {
-    values.id = nanoid();
-    addContact(values);
+    const newUser = addContact({
+      id: nanoid(),
+      name: values.username,
+      number: values.number,
+    });
+
+    dispatch(newUser);
     form.resetForm();
   };
 
   const nameId = useId();
   const numberId = useId();
-
-  const alertMessage = Yup.object().shape({
-    name: Yup.string()
-      .min(3, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-    number: Yup.string()
-      .matches(/^\d{6,7}$/, "Number must be 6-7 digits long")
-      .required("Required"),
-  });
 
   return (
     <Formik
