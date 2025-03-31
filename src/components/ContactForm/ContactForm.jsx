@@ -27,7 +27,7 @@ function ContactForm() {
   const handleSubmit = (values, form) => {
     const newUser = addContact({
       id: nanoid(),
-      name: values.username,
+      name: values.name,
       number: values.number,
     });
 
